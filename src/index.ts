@@ -41,7 +41,7 @@ app.post("/mintNft", upload, async (req, res) => {
       name,
       description,
       supply
-    );  
+    );
     if (!nft) {
       res.status(400).json({
         message: "failed to mint nft",
@@ -56,10 +56,11 @@ app.post("/mintNft", upload, async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-
-  
+});
+app.get("/", (req, res) => {
+  res.send("welcome to oneNftWolrd mint service ");
 });
 
-app.listen(3003,()=>{
-console.log('port listening on port:3003');
+app.listen(3003, () => {
+  console.log("App is running & listening on port:3003");
 });
