@@ -1,18 +1,21 @@
 import { actions, NodeWallet } from "@metaplex/js";
 import { uploadMetadata } from "./uploadMetadata";
-import {
-  clusterApiUrl,
-  Connection,
-  Keypair
-} from "@solana/web3.js";
+import { clusterApiUrl, Connection, Keypair } from "@solana/web3.js";
 
-export const mintNft = async (secretKey:Uint8Array, imagePath:string, imageType:string,name:string,description:string,supply:number):Promise<actions.MintNFTResponse|undefined> => {  
+export const mintNft = async (
+  secretKey: Uint8Array,
+  imagePath: string,
+  imageType: string,
+  name: string,
+  description: string,
+  supply: number
+): Promise<actions.MintNFTResponse | undefined> => {
   const netWork = new Connection(clusterApiUrl("devnet"));
   const keyPair = Keypair.fromSecretKey(secretKey);
-  
+
   try {
     const data = await uploadMetadata(
-     imagePath,
+      imagePath,
       imageType,
       name,
       description,
@@ -32,4 +35,3 @@ export const mintNft = async (secretKey:Uint8Array, imagePath:string, imageType:
     return;
   }
 };
-
