@@ -11,7 +11,7 @@ const store = multer.diskStorage({ destination: `${tempDir}/uploads` });
 const upload = multer({ storage: store }).single("image");
 
 app.get("/", (req, res) => {
-  res.send("welcome to oneNftWolrd mint service ");
+  res.status(200).send("<h1>welcome to oneNftWolrd mint service</h1>");
 });
 
 app.post("/mintNft", upload, async (req, res) => {
