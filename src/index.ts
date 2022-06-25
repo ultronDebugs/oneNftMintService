@@ -9,6 +9,11 @@ const app = express();
 const tempDir = os.tmpdir();
 const store = multer.diskStorage({ destination: `${tempDir}/uploads` });
 const upload = multer({ storage: store }).single("image");
+
+app.get("/", (req, res) => {
+  res.send("welcome to oneNftWolrd mint service ");
+});
+
 app.post("/mintNft", upload, async (req, res) => {
   const imageRes = req.file!;
   const { name, description, supply, user } = JSON.parse(req.body.data);
@@ -56,9 +61,6 @@ app.post("/mintNft", upload, async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-});
-app.get("/", (req, res) => {
-  res.send("welcome to oneNftWolrd mint service ");
 });
 
 app.listen(3003, () => {
