@@ -5,6 +5,11 @@ import { BlockChainHelper } from "./helpers/keyHelpers";
 import { PasswordHelpers } from "./helpers/passwordHelpers";
 import { imageTypeHelper } from "./helpers/imageHelpers";
 import { mintNft } from "./mintNft";
+import { io } from "socket.io-client";
+
+const socket = io("https://one-nftworld-api.herokuapp.com", {
+  withCredentials: true,
+});
 const app = express();
 const tempDir = os.tmpdir();
 const store = multer.diskStorage({ destination: `${tempDir}/uploads` });
@@ -16,7 +21,9 @@ app.get("/", (req, res) => {
 
 app.post("/mintNft", upload, async (req, res) => {
   const imageRes = req.file!;
-  const { name, description, supply, user } = JSON.parse(req.body.data);
+  const { name, description, supply, user, collectionName } = JSON.parse(
+    req.body.data
+  );
   // console.log(user);
   // const userAuth = !authUser(user.email, user.password);
   // console.log("userAuths", userAuth);
@@ -54,6 +61,14 @@ app.post("/mintNft", upload, async (req, res) => {
       });
       return;
     }
+    socket.emit("minted nft", {
+      user: user,
+      nftMint: nft.mint.toBase58(),
+      name: name,
+      description: description,
+      supply: supply,
+      collection: collectionName,
+    });
     res.status(200).json({
       message: "success nft minted 💎 ⛏️",
       payload: nft.mint.toBase58(),
