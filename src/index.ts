@@ -5,11 +5,13 @@ import { BlockChainHelper } from "./helpers/keyHelpers";
 import { PasswordHelpers } from "./helpers/passwordHelpers";
 import { imageTypeHelper } from "./helpers/imageHelpers";
 import { mintNft } from "./mintNft";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
-const socket = io("https://one-nftworld-api.herokuapp.com", {
-  withCredentials: true,
-});
+// socket link = https://one-nftworld-api.herokuapp.com
+// const socket = io("http://localhost:3004", {
+//   withCredentials: true,
+// });
+// socket.connect();
 const app = express();
 const tempDir = os.tmpdir();
 const store = multer.diskStorage({ destination: `${tempDir}/uploads` });
@@ -52,7 +54,9 @@ app.post("/mintNft", upload, async (req, res) => {
       imageType,
       name,
       description,
-      supply
+      supply,
+      collectionName,
+      user
     );
     if (!nft) {
       res.status(400).json({
@@ -61,14 +65,7 @@ app.post("/mintNft", upload, async (req, res) => {
       });
       return;
     }
-    socket.emit("minted nft", {
-      user: user,
-      nftMint: nft.mint.toBase58(),
-      name: name,
-      description: description,
-      supply: supply,
-      collection: collectionName,
-    });
+
     res.status(200).json({
       message: "success nft minted 💎 ⛏️",
       payload: nft.mint.toBase58(),
@@ -78,7 +75,7 @@ app.post("/mintNft", upload, async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3003, () => {
   console.log("App is running & listening on port:3003");
 });
 // listen(process.env.PORT || 3000);
