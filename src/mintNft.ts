@@ -17,7 +17,7 @@ export const mintNft = async (
   collectionName: string,
   user: object
 ): Promise<actions.MintNFTResponse | undefined> => {
-  const netWork = new Connection(clusterApiUrl("testnet"));
+  const network = new Connection(clusterApiUrl("testnet"));
   const keyPair = Keypair.fromSecretKey(secretKey);
   socket.connect();
   try {
@@ -30,7 +30,7 @@ export const mintNft = async (
       1
     );
     const mint = await actions.mintNFT({
-      connection: netWork,
+      connection: network,
       wallet: new NodeWallet(keyPair),
       uri: data!,
       maxSupply: supply,
