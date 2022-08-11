@@ -3,7 +3,7 @@ import { uploadMetadata } from "./uploadMetadata";
 import { clusterApiUrl, Connection, Keypair } from "@solana/web3.js";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3004", {
+const socket = io("https://one-nftworld-api.herokuapp.com", {
   withCredentials: true,
 });
 
